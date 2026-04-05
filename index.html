@@ -1437,7 +1437,7 @@ function navigate(pageId) {
 }
 
 document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', () => navigate(item.dataset.page));
+  item.addEventListener('click', () => { if (item.dataset.page) navigate(item.dataset.page); });
 });
 
 function renderPage(id) {
