@@ -1300,7 +1300,7 @@ const DATE_EMOJIS = ['🎬', '🍣', '🌸', '🎡', '☕', '🏖️', '🎮', '
 // ===== STORAGE (fetch GET / iframe POST / localStorage fallback) =====
 const LS_URL_KEY = 'futari-gas-url';
 const LS_CACHE_KEY = 'futari-app-cache';
-const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbzhB1hFDCtVS61p4CyUb3ytvRuIIuPxjBBfI6YDIuOhnYOeaiPU7cEfOiwP9y1bZq8/exec';
+const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbziUmLcEqKhsNyCmHem8YMpVVMheLJQAVGtety79GzmJCB1yHibXK5xlGzJd3FhZboV/exec';
 // file:// で開いた場合は外部通信不可 → localStorage のみ
 const IS_LOCAL = location.protocol === 'file:';
 let gasUrl = localStorage.getItem(LS_URL_KEY) || DEFAULT_GAS_URL;
