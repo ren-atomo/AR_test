@@ -1311,29 +1311,13 @@ function setGasUrl(url) {
   localStorage.setItem(LS_URL_KEY, gasUrl);
 }
 
-// ---- iframe フォーム POST（保存・CORS不要）----
-function iframePost(url, data) {
-  let iframe = document.getElementById('_save_iframe');
-  if (!iframe) {
-    iframe = document.createElement('iframe');
-    iframe.id = '_save_iframe';
-    iframe.name = '_save_iframe';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-  }
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = url;
-  form.target = '_save_iframe';
-  form.style.display = 'none';
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = 'data';
-  input.value = JSON.stringify(data);
-  form.appendChild(input);
-  document.body.appendChild(form);
-  form.submit();
-  setTimeout(() => { if (form.parentNode) form.parentNode.removeChild(form); }, 500);
+// ---- no-cors fetch POST（保存・レスポンス不要）----
+function noCorsSave(url, data) {
+  return fetch(url, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: new URLSearchParams({ data: JSON.stringify(data) })
+  }).catch(e => console.warn('Save error:', e));
 }
 
 // ---- JSONP ヘルパー（script タグ経由・CORS 対象外）----
@@ -1371,8 +1355,7 @@ function syncSave() {
   try { localStorage.setItem(LS_CACHE_KEY, JSON.stringify(state)); } catch(e) {}
   if (IS_LOCAL || !gasUrl) { showSyncIndicator('local'); return; }
   showSyncIndicator('saving');
-  iframePost(gasUrl, state);
-  setTimeout(() => showSyncIndicator('saved'), 1500);
+  noCorsSave(gasUrl, state).then(() => showSyncIndicator('saved'));
 }
 
 async function load() {
